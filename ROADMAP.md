@@ -26,8 +26,10 @@
 - [x] 建立 BTC/ETH/USDT 阈值再平衡回测
 - [x] 建立再平衡样本内/样本外切分
 - [x] 建立再平衡 walk-forward 回测
+- [x] 完成 300U 低风险再平衡权重对照
 - [x] 产出 read-only 观测候选策略
 - [x] 建立 demo account 再平衡 read-only 信号预览
+- [x] 建立 demo account 再平衡 read-only 风控截断预览
 - [ ] 产出通过自动交易验收的模拟盘策略
 - [x] 建立 OKX 现货订单 payload 干跑
 - [x] 建立本地 OMS 订单/成交落库
@@ -94,9 +96,10 @@
 ## 300U 实盘风控草案
 
 ```text
-max_total_crypto_exposure = 300 USDT
-max_order_notional = 20 USDT
-max_daily_loss = 10 USDT
+target_read_only_weights = USDT 90%, BTC 5%, ETH 5%
+max_total_crypto_exposure = 30 USDT
+max_order_notional = 10 USDT
+max_daily_loss = 5 USDT
 max_orders_per_day = 10
 max_orders_per_hour = 3
 min_seconds_between_orders = 600

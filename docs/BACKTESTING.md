@@ -200,10 +200,31 @@ python scripts/run_rebalance_walk_forward.py --db data/history_1d.sqlite3 --bar 
 - 如果进入 300U 小资金实盘，第一版应继续降低风险暴露，比如提高 USDT 权重、限制单笔订单和总 crypto exposure，而不是照搬 `50/25/25` 组合自动下单。
 - 趋势过滤策略的参数选择并不稳定，仍不应进入自动交易。
 
+## 300U 低风险权重对照
+
+为匹配“先验证交易链路，不追收益”的目标，对再平衡策略增加低 crypto exposure 权重对照：
+
+```powershell
+python scripts/run_rebalance_walk_forward.py --db data/history_1d.sqlite3 --bar 1D --thresholds 0.03,0.05,0.08,0.10 --weights USDT=0.7,BTC=0.15,ETH=0.15 --output reports/rebalance_walk_forward_70_15_15_1d.json
+python scripts/run_rebalance_walk_forward.py --db data/history_1d.sqlite3 --bar 1D --thresholds 0.03,0.05,0.08,0.10 --weights USDT=0.8,BTC=0.1,ETH=0.1 --output reports/rebalance_walk_forward_80_10_10_1d.json
+python scripts/run_rebalance_walk_forward.py --db data/history_1d.sqlite3 --bar 1D --thresholds 0.03,0.05,0.08,0.10 --weights USDT=0.9,BTC=0.05,ETH=0.05 --output reports/rebalance_walk_forward_90_5_5_1d.json
+```
+
+中性成本结果摘要：
+
+| 权重 | 正收益窗口 | 平均测试收益 | 最差测试收益 | 最差测试回撤 | 平均交易数 |
+|---|---:|---:|---:|---:|---:|
+| USDT/BTC/ETH = 50/25/25 | 4/5 | +55.10% | -32.66% | 46.94% | 11.0 |
+| USDT/BTC/ETH = 70/15/15 | 4/5 | +32.76% | -18.28% | 30.96% | 8.0 |
+| USDT/BTC/ETH = 80/10/10 | 4/5 | +17.72% | -15.19% | 21.58% | 5.2 |
+| USDT/BTC/ETH = 90/5/5 | 4/5 | +9.10% | -6.38% | 9.59% | 3.6 |
+
+判断：第一阶段 300U 不建议用 `50/25/25`。更合理的 read-only 候选是 `USDT=90%, BTC=5%, ETH=5%`，它牺牲收益弹性来换取更低回撤和更少订单，更符合验证 API、OMS、账本、对账的目标。
+
 Read-only 信号命令：
 
 ```powershell
-python scripts/preview_rebalance_signal.py --env-file .env.demo --weights USDT=0.5,BTC=0.25,ETH=0.25 --threshold 0.05
+python scripts/preview_rebalance_signal.py --env-file .env.demo --weights USDT=0.9,BTC=0.05,ETH=0.05 --threshold 0.08 --max-order-notional 10 --max-total-crypto-exposure 30
 ```
 
-注意：该脚本只读取账户余额和行情，输出目标再平衡意图，不会下单。
+注意：该脚本只读取账户余额和行情，输出目标再平衡意图和 300U 风控截断后的预览，不会下单。

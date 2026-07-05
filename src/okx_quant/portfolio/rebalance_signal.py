@@ -55,6 +55,22 @@ class RebalanceSignal:
         }
 
 
+@dataclass(frozen=True)
+class RiskCappedIntent:
+    intent: RebalanceIntent
+    capped_notional_usdt: Decimal
+    actionable: bool
+    reasons: tuple[str, ...]
+
+    def as_dict(self) -> dict[str, object]:
+        return {
+            "intent": self.intent.as_dict(),
+            "capped_notional_usdt": str(self.capped_notional_usdt),
+            "actionable": self.actionable,
+            "reasons": list(self.reasons),
+        }
+
+
 def generate_rebalance_signal(
     *,
     cash_usdt: Decimal,
@@ -101,10 +117,57 @@ def generate_rebalance_signal(
     return RebalanceSignal(equity, weights, target_weights, intents)
 
 
+def cap_rebalance_intents(
+    signal: RebalanceSignal,
+    *,
+    max_order_notional: Decimal | None,
+    max_total_crypto_exposure: Decimal | None,
+    min_trade_notional: Decimal,
+) -> list[RiskCappedIntent]:
+    current_crypto_exposure = signal.equity_usdt * sum(
+        weight for asset, weight in signal.weights.items() if asset != "USDT"
+    )
+    capped_intents: list[RiskCappedIntent] = []
+
+    for intent in signal.intents:
+        capped_notional = intent.notional_usdt
+        reasons: list[str] = []
+
+        if max_order_notional is not None and capped_notional > max_order_notional:
+            capped_notional = max_order_notional
+            reasons.append("max_order_notional_capped")
+
+        if max_total_crypto_exposure is not None:
+            if intent.side == OrderSide.BUY:
+                remaining_exposure = max_total_crypto_exposure - current_crypto_exposure
+                if remaining_exposure <= 0:
+                    capped_notional = Decimal("0")
+                    reasons.append("max_total_crypto_exposure_exceeded")
+                elif capped_notional > remaining_exposure:
+                    capped_notional = remaining_exposure
+                    reasons.append("max_total_crypto_exposure_capped")
+                current_crypto_exposure += capped_notional
+            elif intent.side == OrderSide.SELL:
+                current_crypto_exposure = max(Decimal("0"), current_crypto_exposure - capped_notional)
+
+        if capped_notional < min_trade_notional:
+            reasons.append("below_min_trade_notional_after_cap")
+
+        capped_intents.append(
+            RiskCappedIntent(
+                intent=intent,
+                capped_notional_usdt=capped_notional,
+                actionable=capped_notional >= min_trade_notional,
+                reasons=tuple(reasons),
+            )
+        )
+
+    return capped_intents
+
+
 def _validate_target_weights(target_weights: dict[str, Decimal]) -> None:
     total = sum(target_weights.values(), Decimal("0"))
     if total != Decimal("1"):
         raise ValueError(f"target weights must sum to 1, got {total}")
     if "USDT" not in target_weights:
         raise ValueError("target weights must include USDT")
-

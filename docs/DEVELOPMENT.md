@@ -25,7 +25,7 @@ python scripts/run_trend_walk_forward.py --db data/history_1d.sqlite3 --inst BTC
 python scripts/run_rebalance_backtest.py --db data/history_1d.sqlite3 --bar 1D --weights USDT=0.5,BTC=0.25,ETH=0.25 --threshold 0.05 --output reports/rebalance_50_25_25_1d.json
 python scripts/run_rebalance_split.py --db data/history_1d.sqlite3 --bar 1D --weights USDT=0.5,BTC=0.25,ETH=0.25 --threshold 0.05 --output reports/rebalance_50_25_25_split_1d.json
 python scripts/run_rebalance_walk_forward.py --db data/history_1d.sqlite3 --bar 1D --thresholds 0.03,0.05,0.08,0.10 --weights USDT=0.5,BTC=0.25,ETH=0.25 --output reports/rebalance_walk_forward_1d.json
-python scripts/preview_rebalance_signal.py --env-file .env.demo --weights USDT=0.5,BTC=0.25,ETH=0.25 --threshold 0.05
+python scripts/preview_rebalance_signal.py --env-file .env.demo --weights USDT=0.9,BTC=0.05,ETH=0.05 --threshold 0.08 --max-order-notional 10 --max-total-crypto-exposure 30
 python scripts/preview_okx_order.py --inst BTC-USDT --side buy --quote-notional 20 --bar 1H
 python scripts/simulate_order_lifecycle.py --db data/oms_sim.sqlite3
 python scripts/validate_market_data.py --db data/market.sqlite3 --inst BTC-USDT --bar 1H
