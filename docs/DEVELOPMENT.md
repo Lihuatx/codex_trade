@@ -20,6 +20,7 @@ python scripts/run_backtest.py --db data/market.sqlite3 --strategy buy-and-hold 
 python scripts/run_backtest.py --db data/history.sqlite3 --strategy trend-filter --inst BTC-USDT --bar 1H --ma-window 50 --format markdown --output reports/btc_trend_1h.md
 python scripts/run_backtest_sweep.py --db data/history.sqlite3 --inst BTC-USDT --bar 1H --ma-windows 10,20,50,100,200 --format csv --output reports/btc_trend_sweep.csv
 python scripts/run_backtest_split.py --db data/history_1d.sqlite3 --strategy trend-filter --inst BTC-USDT --bar 1D --ma-window 200 --output reports/btc_trend_split_1d.json
+python scripts/run_backtestingpy_trend.py --db data/history_1d.sqlite3 --inst BTC-USDT --bar 1D --ma-window 200 --fractional-unit 0.00000001 --output reports/btc_trend_backtestingpy_1d.json
 python scripts/run_rebalance_backtest.py --db data/history_1d.sqlite3 --bar 1D --weights USDT=0.5,BTC=0.25,ETH=0.25 --threshold 0.05 --output reports/rebalance_50_25_25_1d.json
 python scripts/run_rebalance_split.py --db data/history_1d.sqlite3 --bar 1D --weights USDT=0.5,BTC=0.25,ETH=0.25 --threshold 0.05 --output reports/rebalance_50_25_25_split_1d.json
 python scripts/preview_rebalance_signal.py --env-file .env.demo --weights USDT=0.5,BTC=0.25,ETH=0.25 --threshold 0.05

@@ -8,6 +8,7 @@ version = "0.1.0"
 description = "OKX spot quant trading system training ground."
 requires-python = ">=3.11"
 dependencies = [
+    "backtesting>=0.6.5",
     "websockets>=12",
 ]
 

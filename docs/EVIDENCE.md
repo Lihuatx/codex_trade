@@ -152,6 +152,14 @@
 
 ## 成熟开源项目
 
+- vectorbt：https://vectorbt.dev/
+  - 结论：官方文档说明 vectorbt 基于 pandas/NumPy，适合快速分析大量参数、资产和时间切片。
+  - 当前状态：本机 Python 3.13 环境安装 `vectorbt` 超过 180 秒未完成，尚未作为已验证交叉验证来源。后续建议在 Python 3.11 专用研究环境中验证。
+- backtesting.py：https://kernc.github.io/backtesting.py/
+  - 结论：官方文档说明 backtesting.py 使用 OHLC DataFrame 和 `Strategy` 子类运行单资产策略；`Backtest` 支持 `commission`、`spread`、`trade_on_close`、`exclusive_orders`、`finalize_trades` 等参数。
+  - 结论：官方文档提示如果要交易 BTC 等小数单位资产，应使用 `backtesting.lib.FractionalBacktest`；其 `fractional_unit` 表示最小可交易单位，默认约等于一个 satoshi。
+  - 结论：`Strategy.buy(size=...)` 中 `0 < size < 1` 表示按当前可用流动性比例下单，适合用来表达低频趋势过滤的接近满仓/空仓切换。
+  - 当前状态：本机安装 `backtesting==0.6.5` 成功，用 `FractionalBacktest` 做单资产趋势过滤结果交叉验证。普通 `Backtest` 会在 BTC 这类高单价资产的小资金回测中产生整数单位约束扭曲，已在测试中覆盖。
 - Freqtrade：https://github.com/freqtrade/freqtrade
   - 结论：成熟 crypto bot 通常包含 dry-run、backtesting、money management、WebUI/Telegram 管理，并建议先 dry-run。
 - Hummingbot：https://github.com/hummingbot/hummingbot
@@ -163,5 +171,6 @@
 - 查询日期：2026-07-05
 - 影响设计：
   - `docs/ARCHITECTURE.md`
+  - `src/okx_quant/backtest/backtestingpy_adapter.py`
   - `src/okx_quant/oms/state_machine.py`
   - `src/okx_quant/risk/pre_trade.py`

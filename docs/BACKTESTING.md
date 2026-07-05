@@ -6,6 +6,7 @@
 
 - 1H 趋势过滤换手过高，手续费和滑点会显著侵蚀收益。
 - 1D 低频趋势过滤全样本表现较好，但样本外表现不合格。
+- `backtesting.py` 已完成 1D 单资产趋势过滤交叉验证，结论与自研引擎方向一致，但不能替代样本外验收。
 - BTC/ETH/USDT 阈值再平衡样本外表现优于趋势过滤，可进入 read-only 信号观测，但还不能直接自动交易。
 
 ## 数据
@@ -82,6 +83,33 @@ ETH-USDT 200D trend filter：
 - 样本外：净收益 -23.37%，最大回撤 40.03%，Profit factor 约 0.45。
 
 判断：200D trend filter 没有通过样本外验收，不能进入自动模拟盘交易。
+
+## backtesting.py 交叉验证
+
+用途：验证自研日线趋势过滤回测的大方向是否被另一个成熟框架支持。
+
+命令：
+
+```powershell
+python scripts/run_backtestingpy_trend.py --db data/history_1d.sqlite3 --inst BTC-USDT --bar 1D --ma-window 200 --fractional-unit 0.00000001 --output reports/btc_trend_backtestingpy_1d.json
+python scripts/run_backtestingpy_trend.py --db data/history_1d.sqlite3 --inst ETH-USDT --bar 1D --ma-window 200 --fractional-unit 0.00000001 --output reports/eth_trend_backtestingpy_1d.json
+```
+
+适配说明：
+
+- 使用 `backtesting.lib.FractionalBacktest`，默认 `fractional_unit = 0.00000001`，避免 BTC/ETH 在小资金账户中被整数单位撮合规则扭曲。
+- `commission = 10 bps`，`spread = 5 bps`，`trade_on_close = True`，`exclusive_orders = True`，`finalize_trades = True`。
+- `backtesting.py` 使用浮点数和自身撮合语义，所以只作为交叉验证，不作为资金账本或实盘订单语义的来源。
+- 交易笔数口径不同：自研报告统计买入和卖出执行，`backtesting.py` 的 `# Trades` 统计已完成的 round-trip trade。
+
+结果：
+
+| 标的 | 自研最终权益 | backtesting.py 最终权益 | 自研最大回撤 | backtesting.py 最大回撤 | 自研交易执行 | backtesting.py round-trip |
+|---|---:|---:|---:|---:|---:|---:|
+| BTC-USDT | 12068.87 | 12240.72 | 63.40% | 63.18% | 62 | 31 |
+| ETH-USDT | 15591.70 | 15909.31 | 68.80% | 68.63% | 50 | 25 |
+
+判断：交叉验证支持“日线趋势过滤在全样本上大致可复现”的结论，但不改变样本外不合格的事实。后续策略研究应优先扩展 walk-forward、成本三档和再平衡策略交叉验证，而不是因为全样本好看就进入自动交易。
 
 ## BTC/ETH/USDT 阈值再平衡
 
