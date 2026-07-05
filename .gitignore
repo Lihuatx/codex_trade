@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Secrets and local runtime state
+.env
+.env.*
+!.env.example
+*.sqlite
+*.sqlite3
+data/
+logs/
+reports/
+
+# Existing research exports and large local artifacts
+analysis_metrics.json
+article_signals.csv
+market_series_meta.json
+market_series.csv
+wechat_articles_raw.json
+微信公众号链接.txt
+逻辑解构派_公众号A股观点评估报告.md
+*.xlsx
+*.xls
+*.parquet
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

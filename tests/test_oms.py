@@ -1,0 +1,26 @@
+import unittest
+
+from okx_quant.domain.enums import OrderStatus
+from okx_quant.oms.state_machine import InvalidOrderTransition, transition_order_status
+
+
+class OrderStateMachineTests(unittest.TestCase):
+    def test_valid_transition(self) -> None:
+        result = transition_order_status(OrderStatus.CREATED, OrderStatus.SUBMITTED)
+
+        self.assertEqual(result.previous, OrderStatus.CREATED)
+        self.assertEqual(result.next, OrderStatus.SUBMITTED)
+
+    def test_terminal_status_rejects_transition(self) -> None:
+        with self.assertRaises(InvalidOrderTransition):
+            transition_order_status(OrderStatus.FILLED, OrderStatus.CANCELLED)
+
+    def test_unknown_can_reconcile_to_final_state(self) -> None:
+        result = transition_order_status(OrderStatus.UNKNOWN, OrderStatus.FILLED)
+
+        self.assertEqual(result.next, OrderStatus.FILLED)
+
+
+if __name__ == "__main__":
+    unittest.main()
+
