@@ -92,6 +92,52 @@ class PreTradeRiskEngineTests(unittest.TestCase):
 
         self.assertTrue(decision.approved)
 
+    def test_sell_can_reduce_exposure_even_when_current_exposure_is_over_limit(self) -> None:
+        now = datetime.now(timezone.utc)
+        engine = PreTradeRiskEngine(
+            RiskLimits(
+                max_total_crypto_exposure=Decimal("30"),
+                max_order_notional=Decimal("20"),
+                max_daily_loss=Decimal("10"),
+                max_spread_bps=Decimal("20"),
+                max_price_deviation_bps=Decimal("30"),
+                stale_market_data_seconds=10,
+                read_only_mode=False,
+            )
+        )
+        intent = TradeIntent(
+            strategy_id="test",
+            inst_id="BTC-USDT",
+            side=OrderSide.SELL,
+            notional=Decimal("10"),
+            reference_price=Decimal("100"),
+            reason="unit-test",
+            created_at=now,
+        )
+
+        decision = engine.evaluate(intent, _market(now), PortfolioSnapshot(Decimal("35"), Decimal("0")), now)
+
+        self.assertTrue(decision.approved)
+
+    def test_buy_rejects_when_projected_exposure_exceeds_limit(self) -> None:
+        now = datetime.now(timezone.utc)
+        engine = PreTradeRiskEngine(
+            RiskLimits(
+                max_total_crypto_exposure=Decimal("30"),
+                max_order_notional=Decimal("20"),
+                max_daily_loss=Decimal("10"),
+                max_spread_bps=Decimal("20"),
+                max_price_deviation_bps=Decimal("30"),
+                stale_market_data_seconds=10,
+                read_only_mode=False,
+            )
+        )
+
+        decision = engine.evaluate(_intent(now), _market(now), PortfolioSnapshot(Decimal("25"), Decimal("0")), now)
+
+        self.assertFalse(decision.approved)
+        self.assertIn("max_total_crypto_exposure_exceeded", decision.reasons)
+
 
 def _intent(now: datetime) -> TradeIntent:
     return TradeIntent(

@@ -20,7 +20,16 @@ class OrderStateMachineTests(unittest.TestCase):
 
         self.assertEqual(result.next, OrderStatus.FILLED)
 
+    def test_exchange_can_cancel_live_order_without_local_cancel_pending(self) -> None:
+        result = transition_order_status(OrderStatus.ACCEPTED, OrderStatus.CANCELLED)
+
+        self.assertEqual(result.next, OrderStatus.CANCELLED)
+
+    def test_exchange_can_cancel_partially_filled_order(self) -> None:
+        result = transition_order_status(OrderStatus.PARTIALLY_FILLED, OrderStatus.CANCELLED)
+
+        self.assertEqual(result.next, OrderStatus.CANCELLED)
+
 
 if __name__ == "__main__":
     unittest.main()
-

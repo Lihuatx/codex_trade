@@ -69,6 +69,7 @@ class SQLiteEventStoreTests(unittest.TestCase):
                 )
                 self.assertEqual(store.count("account_snapshots"), 1)
                 self.assertEqual(store.count("reconciliation_runs"), 1)
+                self.assertEqual(store.latest_reconciliation_status(), "passed")
 
 
 if __name__ == "__main__":

@@ -30,6 +30,7 @@
 - [x] 产出 read-only 观测候选策略
 - [x] 建立 demo account 再平衡 read-only 信号预览
 - [x] 建立 demo account 再平衡 read-only 风控截断预览
+- [x] 跑通 demo 自动小单执行：rebalance signal -> cap -> risk -> OMS -> OKX post_only -> cancel -> reconciliation
 - [ ] 产出通过自动交易验收的模拟盘策略
 - [x] 建立 OKX 现货订单 payload 干跑
 - [x] 建立本地 OMS 订单/成交落库
@@ -87,11 +88,11 @@
 ### R4：实盘验收
 
 - [x] 本地订单状态机禁止非法状态跳转
-- [ ] 重启后不重复下单
+- [x] 重启后不重复下单
 - [ ] 部分成交可恢复
 - [x] 撤单请求和最终撤单状态可区分
 - [ ] 账单与本地 ledger 可解释
-- [ ] 对账失败时禁止新单
+- [x] 对账失败时禁止新单
 
 ## 300U 实盘风控草案
 

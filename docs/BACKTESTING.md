@@ -228,3 +228,19 @@ python scripts/preview_rebalance_signal.py --env-file .env.demo --weights USDT=0
 ```
 
 注意：该脚本只读取账户余额和行情，输出目标再平衡意图和 300U 风控截断后的预览，不会下单。
+
+Demo 自动小单执行命令：
+
+```powershell
+python scripts/run_demo_rebalance_executor.py --env-file .env.demo --db data/demo_rebalance_executor.sqlite3
+python scripts/run_demo_rebalance_executor.py --env-file .env.demo --db data/demo_rebalance_executor.sqlite3 --execute --override-read-only
+```
+
+2026-07-06 验收记录：
+
+- 已用 OKX demo 执行 `BTC-USDT sell post_only` 小单。
+- 单笔名义金额约 10 USDT。
+- 最终交易所状态：`canceled`。
+- 本地 OMS 状态：`cancelled`。
+- 订单状态对账：0 个 issue。
+- 该执行器仍是 one-shot 小单验证，不是 72 小时连续 runner。

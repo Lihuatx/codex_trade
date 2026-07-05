@@ -131,6 +131,7 @@
   - 撤单接口返回成功只代表撤单请求被接受，最终状态以订单频道或订单查询为准。
   - 订单 WebSocket 中 `partially_filled` 和 `filled` 分别表示部分成交和完全成交。
   - 订单终态包括 `filled` 和 `canceled`。
+  - `post_only`、`IOC` 等订单可能出现 `live -> canceled` 或 `live -> partially_filled -> canceled`，本地 OMS 不能只把 `canceled` 理解为本地主动撤单完成。
   - 私有 WebSocket 登录签名使用 `timestamp + GET + /users/self/verify`，timestamp 为 Unix 秒级时间戳。
   - 订单频道订阅使用 `{"channel":"orders","instType":"ANY"}` 或指定产品类型/产品 ID。
   - 订单频道不会在订阅时推送未完成订单初始快照，只会在订单状态变化时推送。
@@ -149,6 +150,9 @@
   - `src/okx_quant/brokers/okx/ws_private.py`
   - `scripts/check_okx_private_ws.py`
   - `scripts/snapshot_okx_reconciliation_sources.py`
+  - `scripts/run_demo_rebalance_executor.py`
+  - `src/okx_quant/oms/state_machine.py`
+  - `src/okx_quant/risk/pre_trade.py`
 
 ## 成熟开源项目
 

@@ -79,8 +79,8 @@ class PreTradeRiskEngine:
         projected_exposure = portfolio.total_crypto_exposure
         if intent.side == OrderSide.BUY:
             projected_exposure += intent.notional
-        if projected_exposure > self._limits.max_total_crypto_exposure:
-            reasons.append("max_total_crypto_exposure_exceeded")
+            if projected_exposure > self._limits.max_total_crypto_exposure:
+                reasons.append("max_total_crypto_exposure_exceeded")
         if portfolio.daily_pnl <= -self._limits.max_daily_loss:
             reasons.append("max_daily_loss_exceeded")
         if market.spread_bps > self._limits.max_spread_bps:

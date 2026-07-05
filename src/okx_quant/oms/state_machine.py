@@ -14,6 +14,7 @@ ALLOWED_TRANSITIONS: dict[OrderStatus, set[OrderStatus]] = {
         OrderStatus.PARTIALLY_FILLED,
         OrderStatus.FILLED,
         OrderStatus.CANCEL_PENDING,
+        OrderStatus.CANCELLED,
         OrderStatus.EXPIRED,
         OrderStatus.UNKNOWN,
     },
@@ -21,6 +22,7 @@ ALLOWED_TRANSITIONS: dict[OrderStatus, set[OrderStatus]] = {
         OrderStatus.PARTIALLY_FILLED,
         OrderStatus.FILLED,
         OrderStatus.CANCEL_PENDING,
+        OrderStatus.CANCELLED,
         OrderStatus.UNKNOWN,
     },
     OrderStatus.CANCEL_PENDING: {
@@ -59,4 +61,3 @@ def transition_order_status(current: OrderStatus, next_status: OrderStatus) -> T
     if next_status not in allowed:
         raise InvalidOrderTransition(f"Cannot transition order from {current} to {next_status}")
     return TransitionResult(previous=current, next=next_status)
-

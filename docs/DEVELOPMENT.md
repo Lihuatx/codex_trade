@@ -55,6 +55,8 @@ python scripts/check_okx_private_ws.py --env-file .env.demo
 python scripts/demo_order_ws_lifecycle.py --env-file .env.demo --db data/demo_order_ws.sqlite3
 python scripts/snapshot_okx_reconciliation_sources.py --env-file .env.demo --db data/reconciliation_sources.sqlite3 --inst BTC-USDT
 python scripts/reconcile_okx_orders.py --env-file .env.demo --db data/demo_order_ws.sqlite3 --inst BTC-USDT
+python scripts/run_demo_rebalance_executor.py --env-file .env.demo --db data/demo_rebalance_executor.sqlite3
+python scripts/run_demo_rebalance_executor.py --env-file .env.demo --db data/demo_rebalance_executor.sqlite3 --execute --override-read-only
 ```
 
 ## 目录

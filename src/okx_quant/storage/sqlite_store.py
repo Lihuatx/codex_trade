@@ -266,6 +266,17 @@ class SQLiteEventStore(AbstractContextManager["SQLiteEventStore"]):
             ),
         )
 
+    def latest_reconciliation_status(self) -> str | None:
+        row = self.conn.execute(
+            """
+            SELECT status
+            FROM reconciliation_runs
+            ORDER BY started_at DESC
+            LIMIT 1
+            """
+        ).fetchone()
+        return str(row["status"]) if row is not None else None
+
     def commit(self) -> None:
         self.conn.commit()
 

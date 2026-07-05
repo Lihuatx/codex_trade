@@ -42,6 +42,8 @@ python scripts/check_okx_private_ws.py --env-file .env.demo
 python scripts/demo_order_ws_lifecycle.py --env-file .env.demo --db data/demo_order_ws.sqlite3
 python scripts/snapshot_okx_reconciliation_sources.py --env-file .env.demo --db data/reconciliation_sources.sqlite3 --inst BTC-USDT
 python scripts/reconcile_okx_orders.py --env-file .env.demo --db data/demo_order_ws.sqlite3 --inst BTC-USDT
+python scripts/run_demo_rebalance_executor.py --env-file .env.demo --db data/demo_rebalance_executor.sqlite3
+python scripts/run_demo_rebalance_executor.py --env-file .env.demo --db data/demo_rebalance_executor.sqlite3 --execute --override-read-only
 ```
 
 ## 当前能力
@@ -57,6 +59,7 @@ python scripts/reconcile_okx_orders.py --env-file .env.demo --db data/demo_order
 - Walk-forward 回测和 optimistic/neutral/pessimistic 成本三档。
 - BTC/ETH/USDT 阈值再平衡组合回测。
 - Demo account read-only 再平衡信号预览。
+- Demo account 风控截断后的自动小单 post_only 执行、撤单和订单对账。
 - OKX 现货限价单 payload 干跑生成，不触碰私有交易接口。
 - OKX 模拟盘 REST 下单、查询、撤单闭环。
 - OKX 模拟盘私有 WebSocket orders 频道事件闭环。
