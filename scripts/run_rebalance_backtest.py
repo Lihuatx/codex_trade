@@ -18,6 +18,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--bar", default="1D")
     parser.add_argument("--initial-cash", default="1000")
     parser.add_argument("--taker-fee-bps", default="10")
+    parser.add_argument("--spread-bps", default="0")
     parser.add_argument("--slippage-bps", default="5")
     parser.add_argument("--threshold", default="0.05")
     parser.add_argument("--min-trade-notional", default="10")
@@ -34,6 +35,7 @@ def main() -> None:
     engine = ThresholdRebalanceBacktest(
         ExecutionCostModel(
             taker_fee_bps=Decimal(args.taker_fee_bps),
+            spread_bps=Decimal(args.spread_bps),
             slippage_bps=Decimal(args.slippage_bps),
         )
     )
@@ -82,4 +84,3 @@ def _parse_assets(raw_items: list[str]) -> dict[str, str]:
 
 if __name__ == "__main__":
     main()
-

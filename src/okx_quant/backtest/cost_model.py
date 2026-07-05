@@ -15,13 +15,15 @@ BPS_DENOMINATOR = Decimal("10000")
 class ExecutionCostModel:
     taker_fee_bps: Decimal
     slippage_bps: Decimal
+    spread_bps: Decimal = Decimal("0")
 
     @property
     def taker_fee_rate(self) -> Decimal:
         return self.taker_fee_bps / BPS_DENOMINATOR
 
     def fill_price(self, side: OrderSide, reference_price: Decimal) -> Decimal:
-        adjustment = self.slippage_bps / BPS_DENOMINATOR
+        half_spread_bps = self.spread_bps / Decimal("2")
+        adjustment = (half_spread_bps + self.slippage_bps) / BPS_DENOMINATOR
         if side == OrderSide.BUY:
             return reference_price * (Decimal("1") + adjustment)
         if side == OrderSide.SELL:
@@ -30,4 +32,3 @@ class ExecutionCostModel:
 
     def fee(self, notional: Decimal) -> Decimal:
         return notional * self.taker_fee_rate
-

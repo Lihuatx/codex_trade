@@ -21,6 +21,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--bar", default="1D")
     parser.add_argument("--initial-cash", default="1000")
     parser.add_argument("--taker-fee-bps", default="10")
+    parser.add_argument("--spread-bps", default="0")
     parser.add_argument("--slippage-bps", default="5")
     parser.add_argument("--ma-window", type=int, default=200)
     parser.add_argument("--train-ratio", default="0.70")
@@ -44,6 +45,7 @@ def main() -> None:
     engine = BacktestEngine(
         ExecutionCostModel(
             taker_fee_bps=Decimal(args.taker_fee_bps),
+            spread_bps=Decimal(args.spread_bps),
             slippage_bps=Decimal(args.slippage_bps),
         )
     )

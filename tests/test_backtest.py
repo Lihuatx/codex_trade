@@ -3,6 +3,7 @@ from decimal import Decimal
 import unittest
 
 from okx_quant.backtest.cost_model import ExecutionCostModel
+from okx_quant.backtest.cost_scenarios import parse_cost_scenario, parse_cost_scenarios
 from okx_quant.backtest.engine import BacktestEngine
 from okx_quant.domain.enums import OrderSide
 from okx_quant.domain.market import Candle
@@ -15,6 +16,23 @@ class CostModelTests(unittest.TestCase):
         self.assertEqual(model.fill_price(OrderSide.BUY, Decimal("100")), Decimal("100.0500"))
         self.assertEqual(model.fill_price(OrderSide.SELL, Decimal("100")), Decimal("99.9500"))
         self.assertEqual(model.fee(Decimal("1000")), Decimal("1.000"))
+
+    def test_fill_price_applies_half_spread_plus_slippage(self) -> None:
+        model = ExecutionCostModel(
+            taker_fee_bps=Decimal("10"),
+            spread_bps=Decimal("4"),
+            slippage_bps=Decimal("5"),
+        )
+
+        self.assertEqual(model.fill_price(OrderSide.BUY, Decimal("100")), Decimal("100.0700"))
+        self.assertEqual(model.fill_price(OrderSide.SELL, Decimal("100")), Decimal("99.9300"))
+
+    def test_parse_cost_scenarios(self) -> None:
+        scenario = parse_cost_scenario("stress:15:10:20")
+
+        self.assertEqual(scenario.name, "stress")
+        self.assertEqual(scenario.cost_model().spread_bps, Decimal("10"))
+        self.assertEqual(len(parse_cost_scenarios(None)), 3)
 
 
 class BacktestEngineTests(unittest.TestCase):

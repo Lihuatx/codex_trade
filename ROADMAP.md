@@ -21,8 +21,11 @@
 - [x] 接入 backtesting.py 单资产趋势过滤交叉验证
 - [x] 修正 backtesting.py 加密资产小数单位适配并补测试
 - [ ] 接入 vectorbt 交叉验证研究环境
+- [x] 建立 optimistic/neutral/pessimistic 成本三档
+- [x] 建立趋势过滤 walk-forward 回测
 - [x] 建立 BTC/ETH/USDT 阈值再平衡回测
 - [x] 建立再平衡样本内/样本外切分
+- [x] 建立再平衡 walk-forward 回测
 - [x] 产出 read-only 观测候选策略
 - [x] 建立 demo account 再平衡 read-only 信号预览
 - [ ] 产出通过自动交易验收的模拟盘策略

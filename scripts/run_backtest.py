@@ -21,6 +21,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--bar", default="1H")
     parser.add_argument("--initial-cash", default="1000")
     parser.add_argument("--taker-fee-bps", default="10")
+    parser.add_argument("--spread-bps", default="0")
     parser.add_argument("--slippage-bps", default="5")
     parser.add_argument("--ma-window", type=int, default=20)
     parser.add_argument("--format", choices=["json", "markdown"], default="json")
@@ -32,6 +33,7 @@ def main() -> None:
     args = parse_args()
     cost_model = ExecutionCostModel(
         taker_fee_bps=Decimal(args.taker_fee_bps),
+        spread_bps=Decimal(args.spread_bps),
         slippage_bps=Decimal(args.slippage_bps),
     )
     engine = BacktestEngine(cost_model)

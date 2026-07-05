@@ -160,6 +160,46 @@ min_trade_notional = 10 USDT
 - BTC/ETH/USDT 再平衡 read-only 信号预览已实现。
 - read-only 观测通过后，再考虑 demo 小单自动再平衡。
 
+## Walk-forward 与成本三档
+
+新增滚动 walk-forward 检查：
+
+```powershell
+python scripts/run_trend_walk_forward.py --db data/history_1d.sqlite3 --inst BTC-USDT --bar 1D --ma-windows 100,150,200,250 --output reports/btc_trend_walk_forward_1d.json
+python scripts/run_trend_walk_forward.py --db data/history_1d.sqlite3 --inst ETH-USDT --bar 1D --ma-windows 100,150,200,250 --output reports/eth_trend_walk_forward_1d.json
+python scripts/run_rebalance_walk_forward.py --db data/history_1d.sqlite3 --bar 1D --thresholds 0.03,0.05,0.08,0.10 --weights USDT=0.5,BTC=0.25,ETH=0.25 --output reports/rebalance_walk_forward_1d.json
+```
+
+窗口设置：
+
+- 训练窗口：1095 根 1D K 线。
+- 测试窗口：365 根 1D K 线。
+- 步进：365 根 1D K 线。
+- 每个测试窗口只使用前一个训练窗口选出的参数。
+
+默认成本三档：
+
+| 场景 | taker fee | spread | slippage |
+|---|---:|---:|---:|
+| optimistic | 8 bps | 2 bps | 2 bps |
+| neutral | 10 bps | 5 bps | 5 bps |
+| pessimistic | 15 bps | 10 bps | 15 bps |
+
+中性成本结果摘要：
+
+| 策略 | 测试窗口 | 正收益窗口 | 平均测试收益 | 最差测试收益 | 最差测试回撤 |
+|---|---:|---:|---:|---:|---:|
+| BTC trend filter | 5 | 3 | +5.70% | -9.98% | 41.67% |
+| ETH trend filter | 5 | 2 | +15.50% | -24.99% | 56.86% |
+| BTC/ETH/USDT threshold rebalance | 5 | 4 | +55.10% | -32.66% | 46.94% |
+
+判断：
+
+- 再平衡仍是当前更适合作为 read-only 观测的候选策略。
+- 再平衡的滚动测试并不稳定到可以直接自动交易；最差一年测试收益约 -32.66%，最差测试回撤约 46.94%。
+- 如果进入 300U 小资金实盘，第一版应继续降低风险暴露，比如提高 USDT 权重、限制单笔订单和总 crypto exposure，而不是照搬 `50/25/25` 组合自动下单。
+- 趋势过滤策略的参数选择并不稳定，仍不应进入自动交易。
+
 Read-only 信号命令：
 
 ```powershell

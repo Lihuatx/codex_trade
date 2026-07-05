@@ -18,8 +18,10 @@ python scripts/run_backtest.py --db data/history.sqlite3 --strategy trend-filter
 python scripts/run_backtest_sweep.py --db data/history.sqlite3 --inst BTC-USDT --bar 1H --ma-windows 10,20,50,100,200 --format csv --output reports/btc_trend_sweep.csv
 python scripts/run_backtest_split.py --db data/history_1d.sqlite3 --strategy trend-filter --inst BTC-USDT --bar 1D --ma-window 200 --output reports/btc_trend_split_1d.json
 python scripts/run_backtestingpy_trend.py --db data/history_1d.sqlite3 --inst BTC-USDT --bar 1D --ma-window 200 --fractional-unit 0.00000001 --output reports/btc_trend_backtestingpy_1d.json
+python scripts/run_trend_walk_forward.py --db data/history_1d.sqlite3 --inst BTC-USDT --bar 1D --ma-windows 100,150,200,250 --output reports/btc_trend_walk_forward_1d.json
 python scripts/run_rebalance_backtest.py --db data/history_1d.sqlite3 --bar 1D --weights USDT=0.5,BTC=0.25,ETH=0.25 --threshold 0.05 --output reports/rebalance_50_25_25_1d.json
 python scripts/run_rebalance_split.py --db data/history_1d.sqlite3 --bar 1D --weights USDT=0.5,BTC=0.25,ETH=0.25 --threshold 0.05 --output reports/rebalance_50_25_25_split_1d.json
+python scripts/run_rebalance_walk_forward.py --db data/history_1d.sqlite3 --bar 1D --thresholds 0.03,0.05,0.08,0.10 --weights USDT=0.5,BTC=0.25,ETH=0.25 --output reports/rebalance_walk_forward_1d.json
 python scripts/preview_rebalance_signal.py --env-file .env.demo --weights USDT=0.5,BTC=0.25,ETH=0.25 --threshold 0.05
 python scripts/preview_okx_order.py --inst BTC-USDT --side buy --quote-notional 20 --bar 1H
 python scripts/simulate_order_lifecycle.py --db data/oms_sim.sqlite3
@@ -52,6 +54,7 @@ python scripts/reconcile_okx_orders.py --env-file .env.demo --db data/demo_order
 - 趋势过滤参数敏感性扫描。
 - 样本内/样本外回测切分；当前没有策略通过自动交易验收。
 - `backtesting.py` 单资产趋势过滤小数单位交叉验证。
+- Walk-forward 回测和 optimistic/neutral/pessimistic 成本三档。
 - BTC/ETH/USDT 阈值再平衡组合回测。
 - Demo account read-only 再平衡信号预览。
 - OKX 现货限价单 payload 干跑生成，不触碰私有交易接口。
