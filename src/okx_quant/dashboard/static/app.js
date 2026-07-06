@@ -2,6 +2,7 @@ const $ = (id) => document.getElementById(id);
 
 const STATUS_TEXT = {
   ok: '正常',
+  approved: '通过',
   passed: '通过',
   failed: '失败',
   stale: '超时',
