@@ -57,6 +57,8 @@
 - 2026-07-06 Asia/Shanghai 本机 demo 72 小时 runner 已由用户手动停止，运行位置切换为服务器。
 - 服务器部署、实时日志和 dashboard tunnel 记录在 `docs/DEPLOYMENT.md`。
 - 2026-07-06 Asia/Shanghai 服务器代码部署和测试通过；服务器直连 OKX REST 失败，但用户已配置 `mihomo` 代理监听 `127.0.0.1:9981`，代理访问 OKX REST 公共接口验收通过，进入私有接口和 72 小时 runner 启动验收。
+- 2026-07-06 23:43:50 Asia/Shanghai 服务器 one-shot demo executor 成功执行 `BTC-USDT sell post_only` 小单，最终 `canceled`，本地状态 `cancelled`，对账无异常。
+- 2026-07-06 23:44:37 Asia/Shanghai 已在服务器启动 demo 72 小时 runner 和 dashboard；第一轮周期为冷却期 dry-run，runner health 为 `ok`，预计 2026-07-09 23:44:37 Asia/Shanghai 后结束。
 
 ## 对账开发进度
 
