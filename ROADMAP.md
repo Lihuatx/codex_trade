@@ -54,8 +54,8 @@
 
 ## 运行中
 
-- 2026-07-06 08:58:34 Asia/Shanghai 已启动 demo 72 小时 runner，预计 2026-07-09 08:58:34 Asia/Shanghai 结束。第一轮 demo 小单执行、撤单和订单状态对账已通过。
-- 2026-07-06 09:11 Asia/Shanghai 已启动本地 dashboard：`http://127.0.0.1:8765`。
+- 2026-07-06 Asia/Shanghai 本机 demo 72 小时 runner 已由用户手动停止，运行位置切换为服务器。
+- 服务器部署、实时日志和 dashboard tunnel 记录在 `docs/DEPLOYMENT.md`。
 
 ## 对账开发进度
 

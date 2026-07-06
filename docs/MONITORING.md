@@ -77,3 +77,25 @@ dashboard 当前展示：
 - dashboard 不读取或展示 API Key、Secret、Passphrase。
 - runner / dashboard 文件路径应通过参数传入，live 阶段换路径即可复用。
 - 如果 dashboard 显示 runner stale、对账 failed、订单 unknown，应停止新单并先排查。
+
+## 服务器运行
+
+服务器部署见 `docs/DEPLOYMENT.md`。默认做法是：
+
+```text
+server runner/dashboard bind 127.0.0.1
+  -> SSH tunnel
+  -> local browser http://127.0.0.1:8765
+```
+
+实时看 runner JSONL：
+
+```bash
+ssh -i <SECRET_KEY> <USER>@<IP> 'tail -f ~/codex_trade/logs/demo_rebalance_runner_72h.jsonl'
+```
+
+打开 dashboard tunnel：
+
+```bash
+ssh -i <SECRET_KEY> -L 8765:127.0.0.1:8765 <USER>@<IP>
+```

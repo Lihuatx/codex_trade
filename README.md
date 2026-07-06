@@ -49,6 +49,8 @@ Get-Content logs\demo_rebalance_runner_72h.jsonl -Wait
 python scripts/run_dashboard.py --host 127.0.0.1 --port 8765 --db data/demo_rebalance_runner.sqlite3 --log-file logs/demo_rebalance_runner_72h.jsonl --summary-file reports/demo_rebalance_runner_72h.json --state-file data/demo_rebalance_runner_state.json
 ```
 
+服务器运行、实时日志和 dashboard tunnel 见 `docs/DEPLOYMENT.md`。
+
 ## 当前能力
 
 - OKX 公共 REST 产品规则读取。
@@ -86,3 +88,4 @@ python scripts/run_dashboard.py --host 127.0.0.1 --port 8765 --db data/demo_reba
 - `docs/ARCHITECTURE.md`：模块架构。
 - `docs/RISK_AND_OMS.md`：风控和订单状态机规格。
 - `docs/MONITORING.md`：JSONL 日志和本地 dashboard。
+- `docs/DEPLOYMENT.md`：服务器部署、72 小时 runner、dashboard tunnel 和日志查看。
