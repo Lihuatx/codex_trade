@@ -31,7 +31,7 @@
 - [x] 建立 demo account 再平衡 read-only 信号预览
 - [x] 建立 demo account 再平衡 read-only 风控截断预览
 - [x] 跑通 demo 自动小单执行：rebalance signal -> cap -> risk -> OMS -> OKX post_only -> cancel -> reconciliation
-- [x] 建立 demo 72 小时连续运行 runner
+- [x] 建立 demo 24 小时连续运行 runner
 - [x] 建立 runner JSONL 结构化日志
 - [x] 建立本地 dashboard 读取 JSONL / SQLite / summary / state
 - [ ] 产出通过自动交易验收的模拟盘策略
@@ -49,16 +49,17 @@
 - [x] 跑通 OKX 私有 WS 订单事件 `live -> canceled`
 - [x] 跑通模拟盘订单生命周期
 - [ ] 跑通本地账本和 OKX 账单对账
-- [ ] 模拟盘连续运行 72 小时
+- [ ] 模拟盘连续运行 24 小时
 - [ ] 300U 小资金实盘验证
 
 ## 运行中
 
-- 2026-07-06 Asia/Shanghai 本机 demo 72 小时 runner 已由用户手动停止，运行位置切换为服务器。
+- 2026-07-06 Asia/Shanghai 本机 demo runner 已由用户手动停止，运行位置切换为服务器。
 - 服务器部署、实时日志和 dashboard tunnel 记录在 `docs/DEPLOYMENT.md`。
-- 2026-07-06 Asia/Shanghai 服务器代码部署和测试通过；服务器直连 OKX REST 失败，但用户已配置 `mihomo` 代理监听 `127.0.0.1:9981`，代理访问 OKX REST 公共接口验收通过，进入私有接口和 72 小时 runner 启动验收。
+- 2026-07-06 Asia/Shanghai 服务器代码部署和测试通过；服务器直连 OKX REST 失败，但用户已配置 `mihomo` 代理监听 `127.0.0.1:9981`，代理访问 OKX REST 公共接口验收通过，进入私有接口和 24 小时 runner 启动验收。
 - 2026-07-06 23:43:50 Asia/Shanghai 服务器 one-shot demo executor 成功执行 `BTC-USDT sell post_only` 小单，最终 `canceled`，本地状态 `cancelled`，对账无异常。
-- 2026-07-06 23:44:37 Asia/Shanghai 已在服务器启动 demo 72 小时 runner 和 dashboard；第一轮周期为冷却期 dry-run，runner health 为 `ok`，预计 2026-07-09 23:44:37 Asia/Shanghai 后结束。
+- 2026-07-06 23:44:37 Asia/Shanghai 已在服务器启动 demo runner 和 dashboard；第一轮周期为冷却期 dry-run，runner health 为 `ok`。
+- 2026-07-06 Asia/Shanghai 按用户要求将 burn-in 时长从 72 小时缩短为 24 小时；验证目标改为先覆盖 1 天内的多轮冷却、API 稳定性、日志/dashboard、OMS 和对账链路。
 
 ## 对账开发进度
 

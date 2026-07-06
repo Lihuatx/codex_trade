@@ -32,7 +32,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--state-file", default="data/demo_rebalance_runner_state.json")
     parser.add_argument("--log-file", default=None)
     parser.add_argument("--summary-file", default=None)
-    parser.add_argument("--duration-hours", type=float, default=72.0)
+    parser.add_argument("--duration-hours", type=float, default=24.0)
     parser.add_argument("--duration-seconds", type=float, default=None)
     parser.add_argument("--interval-seconds", type=float, default=900.0)
     parser.add_argument("--max-cycles", type=int, default=None)

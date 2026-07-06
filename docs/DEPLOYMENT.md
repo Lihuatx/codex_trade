@@ -2,7 +2,7 @@
 
 ## 目标
 
-72 小时 demo runner 和 dashboard 应运行在服务器上，本机只作为开发、部署和观察入口。dashboard 默认只绑定服务器 `127.0.0.1`，通过 SSH tunnel 查看，避免把交易监控面板直接暴露到公网。
+24 小时 demo runner 和 dashboard 应运行在服务器上，本机只作为开发、部署和观察入口。dashboard 默认只绑定服务器 `127.0.0.1`，通过 SSH tunnel 查看，避免把交易监控面板直接暴露到公网。
 
 ## 本地 `.env.demo`
 
@@ -38,14 +38,14 @@ SECRET_KEY=...
 运行文件：
 
 ```text
-logs/demo_rebalance_runner_72h.jsonl
-logs/demo_rebalance_runner_72h.stdout.log
-logs/demo_rebalance_runner_72h.stderr.log
+logs/demo_rebalance_runner_24h.jsonl
+logs/demo_rebalance_runner_24h.stdout.log
+logs/demo_rebalance_runner_24h.stderr.log
 logs/dashboard.stdout.log
 logs/dashboard.stderr.log
 data/demo_rebalance_runner.sqlite3
 data/demo_rebalance_runner_state.json
-reports/demo_rebalance_runner_72h.json
+reports/demo_rebalance_runner_24h.json
 ```
 
 ## 网络验收
@@ -77,14 +77,14 @@ nohup .venv/bin/python scripts/run_demo_rebalance_runner.py \
   --env-file .env.demo \
   --db data/demo_rebalance_runner.sqlite3 \
   --state-file data/demo_rebalance_runner_state.json \
-  --log-file logs/demo_rebalance_runner_72h.jsonl \
-  --summary-file reports/demo_rebalance_runner_72h.json \
-  --duration-hours 72 \
+  --log-file logs/demo_rebalance_runner_24h.jsonl \
+  --summary-file reports/demo_rebalance_runner_24h.json \
+  --duration-hours 24 \
   --interval-seconds 900 \
   --execute \
   --override-read-only \
-  > logs/demo_rebalance_runner_72h.stdout.log \
-  2> logs/demo_rebalance_runner_72h.stderr.log &
+  > logs/demo_rebalance_runner_24h.stdout.log \
+  2> logs/demo_rebalance_runner_24h.stderr.log &
 ```
 
 第一期 runner 是链路 burn-in，不是策略收益验收。它验证再平衡意图、风控截断、OMS、OKX demo post_only 小单、撤单、订单状态对账、JSONL 日志和 dashboard 是否连续稳定。
@@ -98,8 +98,8 @@ nohup .venv/bin/python scripts/run_dashboard.py \
   --host 127.0.0.1 \
   --port 8765 \
   --db data/demo_rebalance_runner.sqlite3 \
-  --log-file logs/demo_rebalance_runner_72h.jsonl \
-  --summary-file reports/demo_rebalance_runner_72h.json \
+  --log-file logs/demo_rebalance_runner_24h.jsonl \
+  --summary-file reports/demo_rebalance_runner_24h.json \
   --state-file data/demo_rebalance_runner_state.json \
   > logs/dashboard.stdout.log \
   2> logs/dashboard.stderr.log &
@@ -108,14 +108,14 @@ nohup .venv/bin/python scripts/run_dashboard.py \
 ## 查看实时日志
 
 ```bash
-ssh -i <SECRET_KEY> <USER>@<IP> 'tail -f ~/codex_trade/logs/demo_rebalance_runner_72h.jsonl'
+ssh -i <SECRET_KEY> <USER>@<IP> 'tail -f ~/codex_trade/logs/demo_rebalance_runner_24h.jsonl'
 ```
 
 如果只想看普通 stdout / stderr：
 
 ```bash
-ssh -i <SECRET_KEY> <USER>@<IP> 'tail -f ~/codex_trade/logs/demo_rebalance_runner_72h.stdout.log'
-ssh -i <SECRET_KEY> <USER>@<IP> 'tail -f ~/codex_trade/logs/demo_rebalance_runner_72h.stderr.log'
+ssh -i <SECRET_KEY> <USER>@<IP> 'tail -f ~/codex_trade/logs/demo_rebalance_runner_24h.stdout.log'
+ssh -i <SECRET_KEY> <USER>@<IP> 'tail -f ~/codex_trade/logs/demo_rebalance_runner_24h.stderr.log'
 ```
 
 ## 查看 dashboard

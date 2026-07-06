@@ -37,8 +37,8 @@ TradeIntent(
 - 订单进入 `Unknown` 后禁止新单，直到对账恢复。
 - OKX 可能在没有本地主动撤单请求时把 `post_only` / `IOC` 等订单推到 `canceled` 终态，因此状态机允许 `Accepted -> Cancelled` 和 `PartiallyFilled -> Cancelled`。
 - 自动执行器启动时，如果本地 DB 存在活跃订单或最近一次对账失败，必须拒绝新单。
-- 72 小时 runner 不直接实现交易逻辑，只调度 one-shot 自动执行器；每个周期都必须重新经过信号、风控、OMS、下单、撤单和对账。
-- 72 小时 runner 默认 `min_seconds_between_executions = 10800`、`max_executions_per_day = 8`、`max_consecutive_errors = 3`，连续错误达到阈值必须停机。
+- 24 小时 runner 不直接实现交易逻辑，只调度 one-shot 自动执行器；每个周期都必须重新经过信号、风控、OMS、下单、撤单和对账。
+- 24 小时 runner 默认 `min_seconds_between_executions = 10800`、`max_executions_per_day = 8`、`max_consecutive_errors = 3`，连续错误达到阈值必须停机。
 
 ## 实盘初始限制
 

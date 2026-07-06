@@ -13,22 +13,22 @@ runner JSONL log
 
 ## JSONL 日志
 
-72 小时 runner 会把每个周期写成一行 JSON：
+24 小时 runner 会把每个周期写成一行 JSON：
 
 ```powershell
-logs/demo_rebalance_runner_72h.jsonl
+logs/demo_rebalance_runner_24h.jsonl
 ```
 
 Windows 实时查看：
 
 ```powershell
-Get-Content logs\demo_rebalance_runner_72h.jsonl -Wait
+Get-Content logs\demo_rebalance_runner_24h.jsonl -Wait
 ```
 
 Linux / macOS 实时查看：
 
 ```bash
-tail -f logs/demo_rebalance_runner_72h.jsonl
+tail -f logs/demo_rebalance_runner_24h.jsonl
 ```
 
 每个周期至少包含：
@@ -46,7 +46,7 @@ tail -f logs/demo_rebalance_runner_72h.jsonl
 
 ```powershell
 $env:PYTHONPATH='src'
-python scripts/run_dashboard.py --host 127.0.0.1 --port 8765 --db data/demo_rebalance_runner.sqlite3 --log-file logs/demo_rebalance_runner_72h.jsonl --summary-file reports/demo_rebalance_runner_72h.json --state-file data/demo_rebalance_runner_state.json
+python scripts/run_dashboard.py --host 127.0.0.1 --port 8765 --db data/demo_rebalance_runner.sqlite3 --log-file logs/demo_rebalance_runner_24h.jsonl --summary-file reports/demo_rebalance_runner_24h.json --state-file data/demo_rebalance_runner_state.json
 ```
 
 浏览器打开：
@@ -70,6 +70,7 @@ dashboard 当前展示：
 - 风控事件。
 - 对账结果。
 - 原始 runner JSONL 事件。
+- 界面使用简体中文暗色交易终端风格；JSON 事件默认折叠，展开后使用暗色代码块和基础语法高亮。
 
 ## 运行纪律
 
@@ -91,7 +92,7 @@ server runner/dashboard bind 127.0.0.1
 实时看 runner JSONL：
 
 ```bash
-ssh -i <SECRET_KEY> <USER>@<IP> 'tail -f ~/codex_trade/logs/demo_rebalance_runner_72h.jsonl'
+ssh -i <SECRET_KEY> <USER>@<IP> 'tail -f ~/codex_trade/logs/demo_rebalance_runner_24h.jsonl'
 ```
 
 打开 dashboard tunnel：

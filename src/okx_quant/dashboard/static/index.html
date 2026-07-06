@@ -3,41 +3,41 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>OKX Quant Monitor</title>
+    <title>OKX 量化监控台</title>
     <link rel="stylesheet" href="/app.css" />
   </head>
   <body>
     <header class="topbar">
-      <div>
-        <h1>OKX Quant Monitor</h1>
-        <p id="paths">Loading local runner state...</p>
+      <div class="titleBlock">
+        <h1>OKX 量化监控台</h1>
+        <p id="paths">正在读取 runner 状态...</p>
       </div>
       <div class="toolbar">
-        <button id="refreshButton" type="button">Refresh</button>
+        <button id="refreshButton" type="button" aria-label="刷新监控数据">刷新</button>
         <span id="updatedAt">--</span>
       </div>
     </header>
 
     <main>
-      <section class="metrics" aria-label="Runner summary">
+      <section class="metrics" aria-label="Runner 概览">
         <div class="metric">
-          <span>Runner</span>
+          <span>Runner 状态</span>
           <strong id="runnerHealth">--</strong>
         </div>
         <div class="metric">
-          <span>Cycles</span>
+          <span>周期数</span>
           <strong id="cycles">--</strong>
         </div>
         <div class="metric">
-          <span>Executions</span>
+          <span>真实执行</span>
           <strong id="executions">--</strong>
         </div>
         <div class="metric">
-          <span>Errors</span>
+          <span>连续错误</span>
           <strong id="errors">--</strong>
         </div>
         <div class="metric">
-          <span>Orders</span>
+          <span>订单</span>
           <strong id="ordersCount">--</strong>
         </div>
       </section>
@@ -45,14 +45,14 @@
       <section class="split">
         <article>
           <div class="sectionHead">
-            <h2>Latest Cycle</h2>
+            <h2>最近周期</h2>
             <span id="latestStage">--</span>
           </div>
           <dl class="details" id="latestDetails"></dl>
         </article>
         <article>
           <div class="sectionHead">
-            <h2>Files</h2>
+            <h2>运行文件</h2>
           </div>
           <dl class="details" id="fileDetails"></dl>
         </article>
@@ -60,21 +60,21 @@
 
       <section>
         <div class="sectionHead">
-          <h2>Orders</h2>
+          <h2>OMS 订单</h2>
           <span id="orderSummary">--</span>
         </div>
         <div class="tableWrap">
           <table>
             <thead>
               <tr>
-                <th>Updated</th>
-                <th>Instrument</th>
-                <th>Side</th>
-                <th>Type</th>
-                <th>Price</th>
-                <th>Size</th>
-                <th>Status</th>
-                <th>Client Order</th>
+                <th>更新时间</th>
+                <th>交易对</th>
+                <th>方向</th>
+                <th>类型</th>
+                <th>价格</th>
+                <th>数量</th>
+                <th>状态</th>
+                <th>Client Order ID</th>
               </tr>
             </thead>
             <tbody id="ordersBody"></tbody>
@@ -85,13 +85,13 @@
       <section class="split">
         <article>
           <div class="sectionHead">
-            <h2>Risk</h2>
+            <h2>风控事件</h2>
           </div>
           <div id="riskList" class="eventList"></div>
         </article>
         <article>
           <div class="sectionHead">
-            <h2>Reconciliation</h2>
+            <h2>订单对账</h2>
           </div>
           <div id="reconcileList" class="eventList"></div>
         </article>
@@ -99,7 +99,7 @@
 
       <section>
         <div class="sectionHead">
-          <h2>Runner Events</h2>
+          <h2>Runner JSONL 事件</h2>
           <span id="eventCount">--</span>
         </div>
         <div id="eventsList" class="eventList wide"></div>

@@ -57,9 +57,9 @@ python scripts/snapshot_okx_reconciliation_sources.py --env-file .env.demo --db 
 python scripts/reconcile_okx_orders.py --env-file .env.demo --db data/demo_order_ws.sqlite3 --inst BTC-USDT
 python scripts/run_demo_rebalance_executor.py --env-file .env.demo --db data/demo_rebalance_executor.sqlite3
 python scripts/run_demo_rebalance_executor.py --env-file .env.demo --db data/demo_rebalance_executor.sqlite3 --execute --override-read-only
-python scripts/run_demo_rebalance_runner.py --env-file .env.demo --db data/demo_rebalance_runner.sqlite3 --state-file data/demo_rebalance_runner_state.json --duration-hours 72 --interval-seconds 900 --execute --override-read-only
-Get-Content logs\demo_rebalance_runner_72h.jsonl -Wait
-python scripts/run_dashboard.py --host 127.0.0.1 --port 8765 --db data/demo_rebalance_runner.sqlite3 --log-file logs/demo_rebalance_runner_72h.jsonl --summary-file reports/demo_rebalance_runner_72h.json --state-file data/demo_rebalance_runner_state.json
+python scripts/run_demo_rebalance_runner.py --env-file .env.demo --db data/demo_rebalance_runner.sqlite3 --state-file data/demo_rebalance_runner_state.json --duration-hours 24 --interval-seconds 900 --execute --override-read-only
+Get-Content logs\demo_rebalance_runner_24h.jsonl -Wait
+python scripts/run_dashboard.py --host 127.0.0.1 --port 8765 --db data/demo_rebalance_runner.sqlite3 --log-file logs/demo_rebalance_runner_24h.jsonl --summary-file reports/demo_rebalance_runner_24h.json --state-file data/demo_rebalance_runner_state.json
 ```
 
 ## 目录
