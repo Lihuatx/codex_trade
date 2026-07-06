@@ -15,13 +15,17 @@ OKX_API_SECRET=...
 OKX_API_PASSPHRASE=...
 OKX_SIMULATED_TRADING=1
 OKX_REST_BASE_URL=https://openapi.okx.com
+# 如果服务器需要代理访问 OKX REST，可配置：
+HTTPS_PROXY=http://127.0.0.1:9981
+HTTP_PROXY=http://127.0.0.1:9981
+ALL_PROXY=socks5h://127.0.0.1:9981
 
 IP=...
 USER=...
 SECRET_KEY=...
 ```
 
-`IP / USER / SECRET_KEY` 只用于部署和 SSH 登录服务器；交易程序只依赖 OKX 和风控相关配置。`OKX_REST_BASE_URL` 默认使用 OKX 官方推荐的 `https://openapi.okx.com`，需要代理网关或区域域名时可显式覆盖。不要把 `.env.demo` 提交到 Git。
+`IP / USER / SECRET_KEY` 只用于部署和 SSH 登录服务器；交易程序只依赖 OKX 和风控相关配置。`OKX_REST_BASE_URL` 默认使用 OKX 官方推荐的 `https://openapi.okx.com`，需要代理网关或区域域名时可显式覆盖。`HTTPS_PROXY / HTTP_PROXY / ALL_PROXY` 是可选项，用于服务器不能直连 OKX REST 的情况。不要把 `.env.demo` 提交到 Git。
 
 ## 服务器目录
 
@@ -59,6 +63,7 @@ PYTHONPATH=src python scripts/check_okx_private.py --env-file .env.demo --inst B
 
 ```bash
 curl -sS --max-time 10 https://openapi.okx.com/api/v5/public/time
+curl -sS --max-time 10 -x http://127.0.0.1:9981 https://openapi.okx.com/api/v5/public/time
 ```
 
 如果 `openapi.okx.com` / `www.okx.com` 被解析到 `169.254.0.2`，或 curl 在 TLS 阶段 reset / timeout，不要启动 runner。此时需要换一台能访问 OKX Global API 的服务器，或在服务器配置合规可用的 HTTPS 代理，并通过 `OKX_REST_BASE_URL` / 系统代理环境变量重新验收。
