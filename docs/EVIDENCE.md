@@ -21,6 +21,7 @@
   - 交易产品 K 线和历史 K 线返回数组顺序为 `[ts,o,h,l,c,vol,volCcy,volCcyQuote,confirm]`；部分文档段落出现不带 `volCcyQuote` 的描述，因此解析器以最后一位作为 `confirm`，并兼容 8/9 列。
   - 历史 K 线 `GET /api/v5/market/history-candles` 支持 `after`/`before` 分页；`after` 返回早于指定 `ts` 的数据，`before` 返回新于指定 `ts` 的数据；每次请求最大 `limit=300`。
   - 产品基础信息包含 `tickSz`、`lotSz`、`minSz` 等交易规则字段。
+  - `GET /api/v5/public/instruments` 支持 `instId` 参数；单交易对执行链路应按 `instId` 缩小响应体，避免每轮下载全量 SPOT 产品表。
   - 账户手续费接口返回 maker/taker 费率。
   - 账户余额接口为 `GET /api/v5/account/balance`，返回账户下币种资产详情。
 - 影响代码：

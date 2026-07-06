@@ -400,7 +400,7 @@ def _build_signal(
 
 
 def _instrument_rules(client: OKXRestClient, inst_id: str) -> InstrumentRules:
-    instruments = client.get_public_instruments("SPOT").get("data", [])
+    instruments = client.get_public_instruments("SPOT", inst_id=inst_id).get("data", [])
     instrument = next(item for item in instruments if item.get("instId") == inst_id)
     return InstrumentRules.from_okx(instrument)
 

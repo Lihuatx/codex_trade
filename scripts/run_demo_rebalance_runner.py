@@ -175,6 +175,9 @@ def _compact_result(result: dict[str, object]) -> dict[str, object]:
         "local_status",
         "reconciliation_issues",
         "return_code",
+        "stderr",
+        "stderr_tail",
+        "stdout",
     }
     compact = {key: value for key, value in result.items() if key in keep}
     if "risk" in result:

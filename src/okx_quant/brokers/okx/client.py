@@ -7,6 +7,7 @@ an OKX API concept recorded in docs/EVIDENCE.md.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from http.client import IncompleteRead
 import json
 import os
 import time
@@ -35,8 +36,11 @@ class OKXRestClient:
     max_retries: int = 2
     retry_delay_seconds: float = 1.0
 
-    def get_public_instruments(self, inst_type: str = "SPOT") -> dict[str, Any]:
-        return self._get("/api/v5/public/instruments", {"instType": inst_type})
+    def get_public_instruments(self, inst_type: str = "SPOT", inst_id: str | None = None) -> dict[str, Any]:
+        params = {"instType": inst_type}
+        if inst_id:
+            params["instId"] = inst_id
+        return self._get("/api/v5/public/instruments", params)
 
     def get_history_candles(
         self,
@@ -164,7 +168,7 @@ class OKXRestClient:
                 if 400 <= exc.code < 500:
                     raise
                 last_error = exc
-            except (TimeoutError, URLError) as exc:
+            except (TimeoutError, URLError, IncompleteRead) as exc:
                 last_error = exc
 
             if attempt < self.max_retries:

@@ -1,5 +1,6 @@
 import os
 import unittest
+from unittest.mock import patch
 
 from okx_quant.brokers.okx.client import OKX_REST_BASE_URL, OKXRestClient, build_request_path
 
@@ -28,6 +29,14 @@ class OKXClientTests(unittest.TestCase):
             build_request_path("/api/v5/account/trade-fee", {"instType": "SPOT"}),
             "/api/v5/account/trade-fee?instType=SPOT",
         )
+
+    def test_get_public_instruments_can_scope_to_inst_id(self) -> None:
+        client = OKXRestClient()
+
+        with patch.object(OKXRestClient, "_get", return_value={"code": "0", "data": []}) as mocked_get:
+            client.get_public_instruments("SPOT", inst_id="BTC-USDT")
+
+        mocked_get.assert_called_once_with("/api/v5/public/instruments", {"instType": "SPOT", "instId": "BTC-USDT"})
 
 
 if __name__ == "__main__":
