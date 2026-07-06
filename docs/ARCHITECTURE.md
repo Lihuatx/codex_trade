@@ -15,6 +15,10 @@ flowchart LR
   I --> J["Ledger"]
   J --> K["Reconciliation"]
   K --> L["Reports / Alerts"]
+  I --> M["JSONL Runner Log"]
+  K --> M
+  M --> N["Local Dashboard"]
+  J --> N
 ```
 
 ## 模块边界
@@ -43,6 +47,10 @@ flowchart LR
 
 用 OKX 订单、成交、账单流水校验本地状态。对账失败时禁止新单。
 
+`Monitoring`
+
+runner 每个周期写 JSONL；dashboard 只读 JSONL、summary、state 和 SQLite。该层不绑定 demo，后续 live runner 应复用同样的日志和 dashboard 入口。
+
 ## 状态机
 
 ```text
@@ -69,4 +77,3 @@ OKX_SIMULATED_TRADING=0
 READ_ONLY_MODE=0
 KILL_SWITCH=0
 ```
-

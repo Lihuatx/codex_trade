@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OKX Quant Monitor</title>
+    <link rel="stylesheet" href="/app.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <h1>OKX Quant Monitor</h1>
+        <p id="paths">Loading local runner state...</p>
+      </div>
+      <div class="toolbar">
+        <button id="refreshButton" type="button">Refresh</button>
+        <span id="updatedAt">--</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="metrics" aria-label="Runner summary">
+        <div class="metric">
+          <span>Runner</span>
+          <strong id="runnerHealth">--</strong>
+        </div>
+        <div class="metric">
+          <span>Cycles</span>
+          <strong id="cycles">--</strong>
+        </div>
+        <div class="metric">
+          <span>Executions</span>
+          <strong id="executions">--</strong>
+        </div>
+        <div class="metric">
+          <span>Errors</span>
+          <strong id="errors">--</strong>
+        </div>
+        <div class="metric">
+          <span>Orders</span>
+          <strong id="ordersCount">--</strong>
+        </div>
+      </section>
+
+      <section class="split">
+        <article>
+          <div class="sectionHead">
+            <h2>Latest Cycle</h2>
+            <span id="latestStage">--</span>
+          </div>
+          <dl class="details" id="latestDetails"></dl>
+        </article>
+        <article>
+          <div class="sectionHead">
+            <h2>Files</h2>
+          </div>
+          <dl class="details" id="fileDetails"></dl>
+        </article>
+      </section>
+
+      <section>
+        <div class="sectionHead">
+          <h2>Orders</h2>
+          <span id="orderSummary">--</span>
+        </div>
+        <div class="tableWrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Updated</th>
+                <th>Instrument</th>
+                <th>Side</th>
+                <th>Type</th>
+                <th>Price</th>
+                <th>Size</th>
+                <th>Status</th>
+                <th>Client Order</th>
+              </tr>
+            </thead>
+            <tbody id="ordersBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="split">
+        <article>
+          <div class="sectionHead">
+            <h2>Risk</h2>
+          </div>
+          <div id="riskList" class="eventList"></div>
+        </article>
+        <article>
+          <div class="sectionHead">
+            <h2>Reconciliation</h2>
+          </div>
+          <div id="reconcileList" class="eventList"></div>
+        </article>
+      </section>
+
+      <section>
+        <div class="sectionHead">
+          <h2>Runner Events</h2>
+          <span id="eventCount">--</span>
+        </div>
+        <div id="eventsList" class="eventList wide"></div>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

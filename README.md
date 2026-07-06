@@ -45,6 +45,8 @@ python scripts/reconcile_okx_orders.py --env-file .env.demo --db data/demo_order
 python scripts/run_demo_rebalance_executor.py --env-file .env.demo --db data/demo_rebalance_executor.sqlite3
 python scripts/run_demo_rebalance_executor.py --env-file .env.demo --db data/demo_rebalance_executor.sqlite3 --execute --override-read-only
 python scripts/run_demo_rebalance_runner.py --env-file .env.demo --db data/demo_rebalance_runner.sqlite3 --state-file data/demo_rebalance_runner_state.json --duration-hours 72 --interval-seconds 900 --execute --override-read-only
+Get-Content logs\demo_rebalance_runner_72h.jsonl -Wait
+python scripts/run_dashboard.py --host 127.0.0.1 --port 8765 --db data/demo_rebalance_runner.sqlite3 --log-file logs/demo_rebalance_runner_72h.jsonl --summary-file reports/demo_rebalance_runner_72h.json --state-file data/demo_rebalance_runner_state.json
 ```
 
 ## 当前能力
@@ -62,6 +64,7 @@ python scripts/run_demo_rebalance_runner.py --env-file .env.demo --db data/demo_
 - Demo account read-only 再平衡信号预览。
 - Demo account 风控截断后的自动小单 post_only 执行、撤单和订单对账。
 - Demo account 72 小时 burn-in runner，默认 3 小时执行冷却、每日最多 8 次真实小单执行。
+- JSONL 结构化日志和本地 dashboard，可复用到后续 live runner。
 - OKX 现货限价单 payload 干跑生成，不触碰私有交易接口。
 - OKX 模拟盘 REST 下单、查询、撤单闭环。
 - OKX 模拟盘私有 WebSocket orders 频道事件闭环。
@@ -82,3 +85,4 @@ python scripts/run_demo_rebalance_runner.py --env-file .env.demo --db data/demo_
 - `docs/EVIDENCE.md`：官方文档和开源项目依据记录。
 - `docs/ARCHITECTURE.md`：模块架构。
 - `docs/RISK_AND_OMS.md`：风控和订单状态机规格。
+- `docs/MONITORING.md`：JSONL 日志和本地 dashboard。

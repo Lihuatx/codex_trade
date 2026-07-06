@@ -273,3 +273,5 @@ runner 规则：
 - 运行命令：`python scripts/run_demo_rebalance_runner.py --env-file .env.demo --db data/demo_rebalance_runner.sqlite3 --state-file data/demo_rebalance_runner_state.json --log-file logs/demo_rebalance_runner_72h.jsonl --summary-file reports/demo_rebalance_runner_72h.json --duration-hours 72 --interval-seconds 900 --execute --override-read-only`
 - 第一轮结果：`BTC-USDT sell post_only`，名义金额约 10 USDT，最终 `canceled/cancelled`，订单状态对账 0 个 issue。
 - 后台进程仍在运行，后续按 900 秒检查一次，真实小单执行受 10800 秒冷却和每日 8 次上限约束。
+- 第 2 个周期已按冷却规则进入 dry-run，没有重复真实下单。
+- dashboard 已启动：`http://127.0.0.1:8765`，读取同一份 JSONL、SQLite、summary 和 state 文件。

@@ -32,6 +32,8 @@
 - [x] 建立 demo account 再平衡 read-only 风控截断预览
 - [x] 跑通 demo 自动小单执行：rebalance signal -> cap -> risk -> OMS -> OKX post_only -> cancel -> reconciliation
 - [x] 建立 demo 72 小时连续运行 runner
+- [x] 建立 runner JSONL 结构化日志
+- [x] 建立本地 dashboard 读取 JSONL / SQLite / summary / state
 - [ ] 产出通过自动交易验收的模拟盘策略
 - [x] 建立 OKX 现货订单 payload 干跑
 - [x] 建立本地 OMS 订单/成交落库
@@ -53,6 +55,7 @@
 ## 运行中
 
 - 2026-07-06 08:58:34 Asia/Shanghai 已启动 demo 72 小时 runner，预计 2026-07-09 08:58:34 Asia/Shanghai 结束。第一轮 demo 小单执行、撤单和订单状态对账已通过。
+- 2026-07-06 09:11 Asia/Shanghai 已启动本地 dashboard：`http://127.0.0.1:8765`。
 
 ## 对账开发进度
 
