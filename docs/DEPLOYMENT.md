@@ -44,6 +44,25 @@ data/demo_rebalance_runner_state.json
 reports/demo_rebalance_runner_72h.json
 ```
 
+## 网络验收
+
+启动 runner 前，服务器必须能访问 OKX REST。先在服务器执行：
+
+```bash
+cd ~/codex_trade
+. .venv/bin/activate
+PYTHONPATH=src python scripts/check_okx_public.py
+PYTHONPATH=src python scripts/check_okx_private.py --env-file .env.demo --inst BTC-USDT
+```
+
+也可以用 curl 做最小探测：
+
+```bash
+curl -sS --max-time 10 https://openapi.okx.com/api/v5/public/time
+```
+
+如果 `openapi.okx.com` / `www.okx.com` 被解析到 `169.254.0.2`，或 curl 在 TLS 阶段 reset / timeout，不要启动 runner。此时需要换一台能访问 OKX Global API 的服务器，或在服务器配置合规可用的 HTTPS 代理，并通过 `OKX_REST_BASE_URL` / 系统代理环境变量重新验收。
+
 ## 启动 runner
 
 在服务器 `~/codex_trade` 下：

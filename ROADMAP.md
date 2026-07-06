@@ -56,6 +56,7 @@
 
 - 2026-07-06 Asia/Shanghai 本机 demo 72 小时 runner 已由用户手动停止，运行位置切换为服务器。
 - 服务器部署、实时日志和 dashboard tunnel 记录在 `docs/DEPLOYMENT.md`。
+- 2026-07-06 Asia/Shanghai 服务器代码部署和测试通过，但 OKX REST 网络验收失败：REST 域名解析到不可用的 link-local 地址，绕过 DNS 后 TLS 连接仍被 reset；demo 72 小时 runner 暂不启动，等待可访问 OKX Global API 的服务器或代理。
 
 ## 对账开发进度
 
