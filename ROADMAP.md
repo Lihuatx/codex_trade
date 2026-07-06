@@ -31,6 +31,7 @@
 - [x] 建立 demo account 再平衡 read-only 信号预览
 - [x] 建立 demo account 再平衡 read-only 风控截断预览
 - [x] 跑通 demo 自动小单执行：rebalance signal -> cap -> risk -> OMS -> OKX post_only -> cancel -> reconciliation
+- [x] 建立 demo 72 小时连续运行 runner
 - [ ] 产出通过自动交易验收的模拟盘策略
 - [x] 建立 OKX 现货订单 payload 干跑
 - [x] 建立本地 OMS 订单/成交落库

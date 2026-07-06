@@ -57,6 +57,7 @@ python scripts/snapshot_okx_reconciliation_sources.py --env-file .env.demo --db 
 python scripts/reconcile_okx_orders.py --env-file .env.demo --db data/demo_order_ws.sqlite3 --inst BTC-USDT
 python scripts/run_demo_rebalance_executor.py --env-file .env.demo --db data/demo_rebalance_executor.sqlite3
 python scripts/run_demo_rebalance_executor.py --env-file .env.demo --db data/demo_rebalance_executor.sqlite3 --execute --override-read-only
+python scripts/run_demo_rebalance_runner.py --env-file .env.demo --db data/demo_rebalance_runner.sqlite3 --state-file data/demo_rebalance_runner_state.json --duration-hours 72 --interval-seconds 900 --execute --override-read-only
 ```
 
 ## 目录

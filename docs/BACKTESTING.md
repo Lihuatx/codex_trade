@@ -244,3 +244,24 @@ python scripts/run_demo_rebalance_executor.py --env-file .env.demo --db data/dem
 - 本地 OMS 状态：`cancelled`。
 - 订单状态对账：0 个 issue。
 - 该执行器仍是 one-shot 小单验证，不是 72 小时连续 runner。
+
+Demo 72 小时 runner 命令：
+
+```powershell
+python scripts/run_demo_rebalance_runner.py --env-file .env.demo --db data/demo_rebalance_runner.sqlite3 --state-file data/demo_rebalance_runner_state.json --duration-hours 72 --interval-seconds 900 --execute --override-read-only
+```
+
+runner 规则：
+
+- 每个周期调用 one-shot executor。
+- 默认每 900 秒检查一次。
+- 默认真实执行冷却 10800 秒。
+- 默认每天最多 8 次真实小单执行。
+- 默认连续 3 次错误停机。
+- 日志写入 `logs/*.jsonl`，summary 写入 `reports/*.json`。
+
+2026-07-06 runner smoke 验收：
+
+- dry-run runner：1 个周期成功，risk approved。
+- execute runner：1 个周期成功，`BTC-USDT sell post_only`，名义金额约 10 USDT，最终 `canceled/cancelled`。
+- 通用订单对账：0 个 issue。
