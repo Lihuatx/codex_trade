@@ -2,7 +2,11 @@ from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 import unittest
 
-from okx_quant.backtest.backtestingpy_adapter import candles_to_ohlcv, run_backtestingpy_trend_filter
+from okx_quant.backtest.backtestingpy_adapter import (
+    _rolling_mean,
+    candles_to_ohlcv,
+    run_backtestingpy_trend_filter,
+)
 from okx_quant.domain.market import Candle
 
 
@@ -38,6 +42,11 @@ class BacktestingPyAdapterTests(unittest.TestCase):
 
         self.assertEqual(result["fractional_unit"], "1E-8")
         self.assertGreater(result["number_of_trades"], 0)
+
+    def test_rolling_mean_returns_writeable_array(self) -> None:
+        result = _rolling_mean([1, 2, 3, 4, 5], 3)
+
+        self.assertTrue(result.flags.writeable)
 
 
 def _candles(closes: list[Decimal]) -> list[Candle]:

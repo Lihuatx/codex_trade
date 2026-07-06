@@ -10,6 +10,7 @@ from __future__ import annotations
 from decimal import Decimal
 from typing import Any
 
+import numpy as np
 import pandas as pd
 from backtesting import Strategy
 from backtesting.lib import FractionalBacktest
@@ -93,5 +94,7 @@ def run_backtestingpy_trend_filter(
     }
 
 
-def _rolling_mean(values: Any, window: int) -> Any:
-    return pd.Series(values).rolling(window).mean()
+def _rolling_mean(values: Any, window: int) -> np.ndarray:
+    result = pd.Series(values).rolling(window).mean().to_numpy(dtype=float, copy=True)
+    result.setflags(write=True)
+    return result
