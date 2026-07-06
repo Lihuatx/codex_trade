@@ -8,6 +8,7 @@
 - 查询日期：2026-07-05
 - 结论：
   - OKX 提供 REST 和 WebSocket API。
+  - 2026-05-20 API 更新日志说明 `openapi.okx.com` 已作为 OKX Global 推荐 REST API 域名，功能上与 `www.okx.com` 等价；`www.okx.com` 仍可继续使用，WebSocket URL 不变。
   - WebSocket 公共频道无需登录，可订阅行情、交易数据、深度数据等。
   - WebSocket 订阅消息使用 `{"op":"subscribe","args":[{"channel":"tickers","instId":"BTC-USDT"}]}` 这类格式。
   - REST market data 提供 ticker 和 order book 接口，可用于下单前 spread/last price 检查。
@@ -45,6 +46,19 @@
   - 该行为作为运行环境兼容处理，不改变 OKX 官方 API 语义。
 - 影响代码：
   - `src/okx_quant/brokers/okx/client.py`
+
+## OKX REST 推荐域名更新
+
+- 来源：https://www.okx.com/docs-v5/log_en/#2026-05-20
+- 查询日期：2026-07-06
+- 结论：
+  - OKX 官方更新日志说明 `https://openapi.okx.com` 是 OKX Global 用户推荐的 REST API base URL。
+  - `https://www.okx.com` 仍可继续工作，不会弃用。
+  - WebSocket URL `ws.okx.com`、`wspap.okx.com` 不变。
+  - AWS 域名 `aws.okx.com` 已停止服务，不应作为 fallback。
+- 影响代码：
+  - `src/okx_quant/brokers/okx/client.py`
+  - `.env.example`
 
 ## 本地 OKX 公共 WebSocket smoke test
 

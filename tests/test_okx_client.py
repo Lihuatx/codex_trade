@@ -1,9 +1,25 @@
+import os
 import unittest
 
-from okx_quant.brokers.okx.client import build_request_path
+from okx_quant.brokers.okx.client import OKX_REST_BASE_URL, OKXRestClient, build_request_path
 
 
 class OKXClientTests(unittest.TestCase):
+    def test_default_rest_base_url_uses_official_openapi_domain(self) -> None:
+        self.assertEqual(OKX_REST_BASE_URL, "https://openapi.okx.com")
+        self.assertEqual(OKXRestClient().base_url, "https://openapi.okx.com")
+
+    def test_rest_base_url_can_be_overridden_by_environment(self) -> None:
+        old_value = os.environ.get("OKX_REST_BASE_URL")
+        os.environ["OKX_REST_BASE_URL"] = "https://example.test/"
+        try:
+            self.assertEqual(OKXRestClient().base_url, "https://example.test")
+        finally:
+            if old_value is None:
+                os.environ.pop("OKX_REST_BASE_URL", None)
+            else:
+                os.environ["OKX_REST_BASE_URL"] = old_value
+
     def test_build_request_path_without_params_has_no_trailing_question_mark(self) -> None:
         self.assertEqual(build_request_path("/api/v5/account/balance", {}), "/api/v5/account/balance")
 
@@ -16,4 +32,3 @@ class OKXClientTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

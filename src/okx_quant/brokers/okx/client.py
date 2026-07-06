@@ -6,8 +6,9 @@ an OKX API concept recorded in docs/EVIDENCE.md.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 import json
+import os
 import time
 from typing import Any, Callable
 from urllib.error import HTTPError, URLError
@@ -18,13 +19,17 @@ from okx_quant.brokers.okx.auth import OKXAuth
 from okx_quant.brokers.okx.orders import OKXCancelOrderRequest, OKXPlaceOrderRequest
 
 
-OKX_REST_BASE_URL = "https://www.okx.com"
+OKX_REST_BASE_URL = "https://openapi.okx.com"
 DEFAULT_USER_AGENT = "okx-quant-lab/0.1"
+
+
+def _default_rest_base_url() -> str:
+    return os.getenv("OKX_REST_BASE_URL", OKX_REST_BASE_URL).rstrip("/")
 
 
 @dataclass(frozen=True)
 class OKXRestClient:
-    base_url: str = OKX_REST_BASE_URL
+    base_url: str = field(default_factory=_default_rest_base_url)
     auth: OKXAuth | None = None
     timeout_seconds: int = 10
     max_retries: int = 2
