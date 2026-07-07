@@ -51,6 +51,8 @@ python scripts/run_dashboard.py --host 127.0.0.1 --port 8765 --db data/demo_reba
 
 服务器运行、实时日志和 dashboard tunnel 见 `docs/DEPLOYMENT.md`。
 
+Windows 本机 dashboard 打不开时，可以双击项目根目录的 `start_dashboard.cmd`。它会检查服务器 dashboard、重建本机 SSH tunnel，并打开 `http://127.0.0.1:8765`。
+
 ## 当前能力
 
 - OKX 公共 REST 产品规则读取。

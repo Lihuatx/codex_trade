@@ -100,3 +100,5 @@ ssh -i <SECRET_KEY> <USER>@<IP> 'tail -f ~/codex_trade/logs/demo_rebalance_runne
 ```bash
 ssh -i <SECRET_KEY> -L 8765:127.0.0.1:8765 <USER>@<IP>
 ```
+
+Windows 下也可以直接双击项目根目录的 `start_dashboard.cmd`，脚本会读取本地 `.env.demo` 的 `IP / USER / SECRET_KEY`，检查服务器 dashboard，重建本机 SSH tunnel，并打开浏览器。
